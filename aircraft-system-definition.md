@@ -3,8 +3,8 @@
 
 **Document ID**: ACS-SDD-001  
 **Version**: 1.0  
-**Date**: [Current Date]  
-**Author**: [Your Name]  
+**Date**: 7/11/2025  
+**Author**: Srideep Maulik  
 **Status**: Released for Design  
 
 ---

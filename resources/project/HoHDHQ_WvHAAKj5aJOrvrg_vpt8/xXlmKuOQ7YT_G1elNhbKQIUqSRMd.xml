@@ -1,0 +1,2 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Info description="A  fly-by-wire control application that keeps a light general-aviation aircraft safely on the attitude you command, while protecting the flight envelope and detecting failures in real-time.  &#10;The repository bundles MATLAB / Simulink models, control laws, requirements, testbenches and documentation that take the project from concept to code-generation.&#10;"/>

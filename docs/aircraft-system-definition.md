@@ -46,20 +46,20 @@ The ACS provides:
 ### 2.3 System Context Diagram
 
 ```
-┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+┌─────────────────┐     ┌─────────────────┐      ┌─────────────────┐
 │  Pilot Controls │────▶│                 │────▶│Control Surface  │
-│  (Stick/Pedals) │     │                 │     │   Actuators     │
-└─────────────────┘     │                 │     └─────────────────┘
+│  (Stick/Pedals) │     │                 │      │   Actuators     │
+└─────────────────┘     │                 │      └─────────────────┘
                         │   Aircraft      │
-┌─────────────────┐     │   Attitude      │     ┌─────────────────┐
+┌─────────────────┐     │   Attitude      │      ┌─────────────────┐
 │      AHRS       │────▶│   Control       │────▶│  Pilot Display  │
-│    (Attitude)   │     │   System        │     │    (Status)     │
-└─────────────────┘     │                 │     └─────────────────┘
+│    (Attitude)   │     │   System        │      │    (Status)     │
+└─────────────────┘     │                 │      └─────────────────┘
                         │                 │
-┌─────────────────┐     │                 │     ┌─────────────────┐
+┌─────────────────┐     │                 │      ┌─────────────────┐
 │   Air Data      │────▶│                 │────▶│  Maintenance    │
-│ (Speed/Altitude)│     │                 │     │   Interface     │
-└─────────────────┘     └─────────────────┘     └─────────────────┘
+│ (Speed/Altitude)│     │                 │      │   Interface     │
+└─────────────────┘     └─────────────────┘      └─────────────────┘
 ```
 
 ---
@@ -375,6 +375,6 @@ The ACS provides:
 4. FAR Part 23: Airworthiness Standards
 
 ### Appendix C: Document History
-| Version | Date | Changes | Author |
-|---------|------|---------|---------|
-| 1.0 | [Date] | Initial release | [Your Name] |
+| Version |      Date   |     Changes     |     Author       |
+|---------|-------------|-----------------|------------------|
+| 2.0     |   7/15/2025 | Initial release |  Srideep Maulik  |

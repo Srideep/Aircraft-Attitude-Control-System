@@ -1,10 +1,10 @@
-# Appendix B: Traceability Matrix
+# Traceability Matrix
 ## Aircraft Attitude Control System
 
 **Document ID**: ACS-TRM-001  
 **Version**: 1.0  
-**Date**: [Current Date]  
-**Author**: [Your Name]  
+**Date**: 7/15/2025  
+**Author**: Srideep Maulik  
 **Status**: Released for Implementation  
 
 ---
@@ -357,9 +357,9 @@ Test Cases (TC)
 
 ### 11.2 Certification Readiness
 
-| Certification Item | Requirement | Evidence | Status |
-|-------------------|-------------|----------|---------|
-| Requirements Coverage | 100% | Traceability Matrix | ✅ |
+| Certification Item    | Requirement | Evidence            | Status  |
+|-----------------------|-------------|---------------------|---------|
+| Requirements Coverage | 100%        | Traceability Matrix | ✅      |
 | Verification Coverage | 100% | Test Results | ✅ |
 | Code Coverage | >95% | Coverage Reports | ✅ |
 | Review Completion | 100% | Review Records | ✅ |
@@ -414,12 +414,7 @@ Test Cases (TC)
 
 ---
 
-**Document Approval:**
-- Systems Engineer: [Name/Date]
-- Software Engineer: [Name/Date] 
-- Test Engineer: [Name/Date]
-- Quality Assurance: [Name/Date]
-- Configuration Management: [Name/Date]
+
 
 **Revision History:**
 | Version | Date | Description | Author |

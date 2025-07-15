@@ -377,4 +377,4 @@ The ACS provides:
 ### Appendix C: Document History
 | Version |      Date   |     Changes     |     Author       |
 |---------|-------------|-----------------|------------------|
-| 2.0     | [7/15/2025] | Initial release | [Srideep Maulik] |
+| 2.0     |   7/15/2025 | Initial release |  Srideep Maulik  |

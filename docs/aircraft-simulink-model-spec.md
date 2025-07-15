@@ -620,6 +620,6 @@ Pre-release verification checklist.
 - Bus array size limit: 100 elements
 
 ### Appendix E: Document History
-| Version | Date | Changes | Author |
-|---------|------|---------|---------|
-| 1.0 | [Date] | Initial release | [Your Name] |
+| Version | Date  | Changes         | Author         |
+|---------|-------|-----------------|----------------|
+| 1.0 | 7/15/2025 | Initial release | Srideep Maulik |

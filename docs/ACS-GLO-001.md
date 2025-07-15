@@ -1,10 +1,10 @@
-# Appendix C: Glossary
+# Glossary
 ## Aircraft Attitude Control System
 
 **Document ID**: ACS-GLO-001  
 **Version**: 1.0  
-**Date**: [Current Date]  
-**Author**: [Your Name]  
+**Date**: 7/15/2025  
+**Author**: Srideep Maulik 
 **Status**: Released for Implementation  
 
 ---

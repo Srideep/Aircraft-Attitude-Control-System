@@ -45,31 +45,31 @@ The ACS employs a **Layered Architecture** with **Model-View-Controller (MVC)** 
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
-│                        External Interfaces                        │
+│                        External Interfaces                      │
 ├─────────────────────────────────────────────────────────────────┤
-│                         Interface Layer                          │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │
-│  │Pilot Command │  │Sensor Input  │  │Output Command│         │
-│  │  Interface   │  │  Interface   │  │  Interface   │         │
-│  └──────────────┘  └──────────────┘  └──────────────┘         │
+│                         Interface Layer                         │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐           │
+│  │Pilot Command │  │Sensor Input  │  │Output Command│           │
+│  │  Interface   │  │  Interface   │  │  Interface   │           │
+│  └──────────────┘  └──────────────┘  └──────────────┘           │
 ├─────────────────────────────────────────────────────────────────┤
-│                       Application Layer                          │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │
-│  │   Command    │  │   Attitude   │  │    Safety    │         │
-│  │  Processing  │  │  Controller  │  │   Monitor    │         │
-│  └──────────────┘  └──────────────┘  └──────────────┘         │
+│                       Application Layer                         │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐           │
+│  │   Command    │  │   Attitude   │  │    Safety    │           │
+│  │  Processing  │  │  Controller  │  │   Monitor    │           │
+│  └──────────────┘  └──────────────┘  └──────────────┘           │
 ├─────────────────────────────────────────────────────────────────┤
-│                         Service Layer                            │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │
-│  │    State     │  │   Control    │  │   System     │         │
-│  │  Estimation  │  │  Algorithms  │  │  Diagnostics │         │
-│  └──────────────┘  └──────────────┘  └──────────────┘         │
+│                         Service Layer                           │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐           │
+│  │    State     │  │   Control    │  │   System     │           │
+│  │  Estimation  │  │  Algorithms  │  │  Diagnostics │           │
+│  └──────────────┘  └──────────────┘  └──────────────┘           │
 ├─────────────────────────────────────────────────────────────────┤
-│                      Infrastructure Layer                        │
-│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐         │
-│  │   Real-Time  │  │    Error     │  │    Data      │         │
-│  │  Scheduler   │  │   Handling   │  │   Logging    │         │
-│  └──────────────┘  └──────────────┘  └──────────────┘         │
+│                      Infrastructure Layer                       │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐           │
+│  │   Real-Time  │  │    Error     │  │    Data      │           │
+│  │  Scheduler   │  │   Handling   │  │   Logging    │           │
+│  └──────────────┘  └──────────────┘  └──────────────┘           │
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -333,21 +333,21 @@ typedef struct {
 #### 5.1.1 Cascaded Control Architecture
 ```
 ┌─────────────────────────────────────────────────────┐
-│                  Outer Loop (Attitude)               │
-│  ┌─────────┐     ┌─────────┐     ┌─────────┐      │
-│  │ Ref (+) │────▶│   PID   │────▶│Limiters │──┐   │
-│  └─────────┘  -  └─────────┘     └─────────┘  │   │
-│       ▲                                        ▼   │
-│       └────────────────────────────────────────┘   │
+│                  Outer Loop (Attitude)              │
+│  ┌─────────┐     ┌─────────┐     ┌─────────┐        │
+│  │ Ref (+) │────▶│   PID   │────▶│Limiters │──┐    │
+│  └─────────┘  -  └─────────┘     └─────────┘  │     │
+│       ▲                                        ▼    │
+│       └────────────────────────────────────────┘    │
 │                         │                           │
 │                    Rate Commands                    │
 │                         ▼                           │
 │               Inner Loop (Rate)                     │
-│  ┌─────────┐     ┌─────────┐     ┌─────────┐      │
-│  │ Ref (+) │────▶│   PID   │────▶│Limiters │──┐   │
-│  └─────────┘  -  └─────────┘     └─────────┘  │   │
-│       ▲                                        ▼   │
-│       └────────────────────────────────────────┘   │
+│  ┌─────────┐     ┌─────────┐     ┌─────────┐        │
+│  │ Ref (+) │────▶│   PID   │────▶│Limiters │──┐    │
+│  └─────────┘  -  └─────────┘     └─────────┘  │     │
+│       ▲                                        ▼    │
+│       └────────────────────────────────────────┘    │
 │                         │                           │
 │                  Surface Commands                   │
 └─────────────────────────┼───────────────────────────┘
@@ -502,12 +502,12 @@ Time  Task
 #### 7.1.2 Worst-Case Execution Time (WCET)
 | Module | WCET (μs) | Budget (μs) | Margin |
 |--------|-----------|-------------|--------|
-| SII | 200 | 500 | 60% |
-| SEM | 400 | 800 | 50% |
-| CPM | 100 | 300 | 67% |
-| ATC | 600 | 1000 | 40% |
-| SFM | 300 | 500 | 40% |
-| OCI | 150 | 400 | 63% |
+| SII    | 200       | 500         | 60%    |
+| SEM    | 400       | 800         | 50%    |
+| CPM    | 100       | 300         | 67%    |
+| ATC    | 600       | 1000        | 40%    |
+| SFM    | 300       | 500         | 40%    |
+| OCI    | 150       | 400         | 63%    |
 
 ### 7.2 Memory Design
 
@@ -637,12 +637,12 @@ High-level modules depend on abstractions, not concrete implementations.
 
 ### 10.2 Trade-off Analysis
 
-| Aspect | Option A | Option B | Decision |
-|--------|----------|----------|----------|
-| Control | Classical PID | Model Predictive | PID (simplicity) |
-| Scheduling | Time-triggered | Event-driven | Time (determinism) |
-| Communication | Shared memory | Message passing | Shared (performance) |
-| Language | C | C++ | C (certification) |
+| Aspect        | Option A       | Option B         | Decision             |
+|---------------|----------------|------------------|----------------------|
+| Control       | Classical PID  | Model Predictive | PID (simplicity)     |
+| Scheduling    | Time-triggered | Event-driven     | Time (determinism)   |
+| Communication | Shared memory  | Message passing  | Shared (performance) |
+| Language      | C              | C++              | C (certification)    |
 
 ---
 
@@ -680,6 +680,6 @@ Technical terms and abbreviations used.
 4. DO-297: Integrated Modular Avionics
 
 ### Appendix E: Document History
-| Version | Date | Changes | Author |
-|---------|------|---------|---------|
-| 1.0 | [Date] | Initial release | [Your Name] |
+| Version | Date      | Changes         | Author         |
+|---------|-----------|-----------------|----------------|
+| 2.0     | 7/15/2025 | Initial release | Srideep Maulik |

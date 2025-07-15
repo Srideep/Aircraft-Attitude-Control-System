@@ -663,23 +663,17 @@ High-level modules depend on abstractions, not concrete implementations.
 ---
 
 ## Appendices
-
-### Appendix A: Interface Control Document
-Detailed signal definitions and timing diagrams.
-
-### Appendix B: Traceability Matrix
-Requirements to architecture element mapping.
-
-### Appendix C: Glossary
-Technical terms and abbreviations used.
-
-### Appendix D: References
-1. ACS-SRS-001: System Requirements Specification
-2. ACS-SDD-001: System Definition Document
-3. ARINC 653: Avionics Application Software Interface
-4. DO-297: Integrated Modular Avionics
+### Appendix A: References
+1. ACS-ICD-001: Interface Control Document
+2. ACS-TRM-001: Tracibility Matrix
+3. ACS-SRS-001: System Requirements Specification
+4. ACS-SDD-001: System Definition Document
+5. ARINC 653: Avionics Application Software Interface
+6. DO-297: Integrated Modular Avionics
+7. ACS-GLO-001: Technical Glossary
 
 ### Appendix E: Document History
 | Version | Date      | Changes         | Author         |
 |---------|-----------|-----------------|----------------|
 | 2.0     | 7/15/2025 | Initial release | Srideep Maulik |
+| 3.0     | 7/15/2025 | Second release  | Srideep Maulik |

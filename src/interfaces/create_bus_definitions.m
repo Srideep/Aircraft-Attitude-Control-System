@@ -84,4 +84,24 @@ function create_bus_definitions()
     assignin('base', 'ControlCommand', ControlCommand);
     
     fprintf('Bus objects created successfully.\n');
+
+    % Determine the project root based on the location of this script and
+    % construct the path to the data folder. This keeps the output
+    % location valid regardless of where the project is cloned.
+    scriptDir = fileparts(mfilename('fullpath'));
+    projectRoot = fileparts(fileparts(scriptDir));
+    outputFolder = fullfile(projectRoot, 'data/parameters');
+
+    % Create the output folder if it doesn't exist
+    if ~exist(outputFolder, 'dir')
+       mkdir(outputFolder)
+    end
+    
+    filePath = fullfile(outputFolder, 'aircraft_attitude_control_system_bus.mat');
+    save(filePath);
+    % Add the newly created file to the project
+    if ~isempty(currentProject)
+        addFile(currentProject, filePath);
+    end    
+    fprintf('Bus definitions saved to %s\n', filePath);
 end

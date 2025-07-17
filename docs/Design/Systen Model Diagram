@@ -1,28 +1,10 @@
 ```mermaid
 flowchart LR
-    %% External interfaces
-    JOY[Pilot Input<br/>(USB HID, 50 Hz)]
-    IMU[IMU / AHRS<br/>(Serial or UDP, 100 Hz)]
-    SERVO[Servo Board<br/>(USB PWM, 100 Hz)]
-    SIM[Flight Simulator / HUD<br/>(UDP Telem, 10 Hz)]
-
-    %% Core model
-    subgraph ACS["ACS Model (ACS.slx)"]
-      direction TB
-      SE[State Estimation<br/>(Sensors_I/F)]
-      CP[Command Processing<br/>(Command_Processing)]
-      AC[Attitude Controller<br/>(Attitude_Control)]
-      EP[Envelope Protection<br/>(Envelope_Protection)]
-      AI[Actuator I/F<br/>(Actuator_I/F)]
-    end
-
-    %% Data flows
-    IMU --> SE
-    JOY --> CP
-    SE --> AC
-    SE --> EP
-    CP --> AC
-    AC --> EP
-    EP --> AI
-    AI --> SERVO
-    EP --> SIM
+  IMU[IMU/AHRS] --> SE[State Estimation]
+  JOY[Pilot Input] --> CP[Command Processing]
+  SE --> AC[Attitude Controller]
+  CP --> AC
+  AC --> EP[Envelope Protection]
+  EP --> AI[Actuator I/F]
+  AI --> SERVO[Servo Board]
+  EP --> SIM[Flight Sim/HUD]

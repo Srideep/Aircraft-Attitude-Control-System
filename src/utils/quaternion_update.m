@@ -1,4 +1,4 @@
-function quaternion_update(q, omega, dt)
+function q_next= quaternion_update(q, omega, dt)
     % Updates quaternion using body rates (simple Euler integration).
     % Inputs: q (4x1 quaternion [w x y z]), omega (3x1 body rates [p q r] rad/s), dt (time step s)
     % Output: q_next (updated quaternion, normalized)

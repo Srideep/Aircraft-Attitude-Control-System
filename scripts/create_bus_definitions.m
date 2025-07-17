@@ -1,93 +1,81 @@
-%% create_bus_definitions.m
-% Define all bus objects for the ACS system
+% create_bus_definitions.m
+% Defines Simulink bus objects for ACS data structures (based on SADD Section 4.1.2).
+% These match AircraftState_T, ControlCommand_T, and SystemStatus_T.
+% Run this script to create the buses in the base workspace.
 
-function create_bus_definitions()
-    
-    % Aircraft State Bus
-    clear elems;
-    elems(1) = Simulink.BusElement;
-    elems(1).Name = 'roll_rad';
-    elems(1).Dimensions = 1;
-    elems(1).DataType = 'double';
-    elems(1).Min = -pi;
-    elems(1).Max = pi;
-    
-    elems(2) = Simulink.BusElement;
-    elems(2).Name = 'pitch_rad';
-    elems(2).Dimensions = 1;
-    elems(2).DataType = 'double';
-    elems(2).Min = -pi/2;
-    elems(2).Max = pi/2;
-    
-    elems(3) = Simulink.BusElement;
-    elems(3).Name = 'yaw_rad';
-    elems(3).Dimensions = 1;
-    elems(3).DataType = 'double';
-    elems(3).Min = -pi;
-    elems(3).Max = pi;
-    
-    elems(4) = Simulink.BusElement;
-    elems(4).Name = 'p_rps';
-    elems(4).Dimensions = 1;
-    elems(4).DataType = 'double';
-    elems(4).Min = -deg2rad(300);
-    elems(4).Max = deg2rad(300);
-    
-    elems(5) = Simulink.BusElement;
-    elems(5).Name = 'q_rps';
-    elems(5).Dimensions = 1;
-    elems(5).DataType = 'double';
-    elems(5).Min = -deg2rad(300);
-    elems(5).Max = deg2rad(300);
-    
-    elems(6) = Simulink.BusElement;
-    elems(6).Name = 'r_rps';
-    elems(6).Dimensions = 1;
-    elems(6).DataType = 'double';
-    elems(6).Min = -deg2rad(300);
-    elems(6).Max = deg2rad(300);
-    
-    elems(7) = Simulink.BusElement;
-    elems(7).Name = 'valid';
-    elems(7).Dimensions = 1;
-    elems(7).DataType = 'boolean';
-    
-    AircraftState = Simulink.Bus;
-    AircraftState.Elements = elems;
-    assignin('base', 'AircraftState', AircraftState);
-    
-    % Control Command Bus
-    clear elems;
-    elems(1) = Simulink.BusElement;
-    elems(1).Name = 'elevator_rad';
-    elems(1).Dimensions = 1;
-    elems(1).DataType = 'double';
-    elems(1).Min = -deg2rad(15);
-    elems(1).Max = deg2rad(15);
-    
-    elems(2) = Simulink.BusElement;
-    elems(2).Name = 'aileron_rad';
-    elems(2).Dimensions = 1;
-    elems(2).DataType = 'double';
-    elems(2).Min = -deg2rad(20);
-    elems(2).Max = deg2rad(20);
-    
-    elems(3) = Simulink.BusElement;
-    elems(3).Name = 'rudder_rad';
-    elems(3).Dimensions = 1;
-    elems(3).DataType = 'double';
-    elems(3).Min = -deg2rad(25);
-    elems(3).Max = deg2rad(25);
-    
-    ControlCommand = Simulink.Bus;
-    ControlCommand.Elements = elems;
-    assignin('base', 'ControlCommand', ControlCommand);
-    
-    fprintf('Bus objects created successfully.\n');
-    destPath = 'data/navigation_buses.mat';
-    proj =  matlab.project.currentProject;
+clear all;  % Clear workspace to avoid conflicts
 
-    save(destPath);
-    addFile(proj, destPath);
-    fprintf('Bus definitions saved to %s\n', filePath);
+%% Helper function to create a bus element
+function elem = createBusElement(name, dataType, dims)
+    elem = Simulink.BusElement;
+    elem.Name = name;
+    elem.DataType = dataType;
+    elem.Dimensions = dims;
+    elem.SampleTime = -1;  % Inherited
+    elem.Complexity = 'real';
+    elem.SamplingMode = 'Sample based';
 end
+
+%% AircraftState_T Bus (attitude, rates, etc. - from SADD)
+aircraftStateElems = [
+    createBusElement('roll', 'single', 1);          % [rad]
+    createBusElement('pitch', 'single', 1);         % [rad]
+    createBusElement('yaw', 'single', 1);           % [rad]
+    createBusElement('roll_rate', 'single', 1);     % [rad/s]
+    createBusElement('pitch_rate', 'single', 1);    % [rad/s]
+    createBusElement('yaw_rate', 'single', 1);      % [rad/s]
+    createBusElement('airspeed', 'single', 1);      % [m/s]
+    createBusElement('altitude', 'single', 1);      % [m]
+    createBusElement('aoa', 'single', 1);           % Angle of attack [rad]
+    createBusElement('ax', 'single', 1);            % Accelerations [m/s²]
+    createBusElement('ay', 'single', 1);
+    createBusElement('az', 'single', 1);
+    createBusElement('timestamp', 'uint32', 1);     % [ms]
+    createBusElement('valid_flags', 'uint16', 1)    % Bit flags for validity
+];
+
+AircraftState_T = Simulink.Bus;
+AircraftState_T.HeaderFile = '';
+AircraftState_T.Description = 'Aircraft State Structure (SADD)';
+AircraftState_T.Elements = aircraftStateElems;
+
+%% ControlCommand_T Bus (commands - from SADD)
+controlCommandElems = [
+    createBusElement('roll_cmd', 'single', 1);      % [rad]
+    createBusElement('pitch_cmd', 'single', 1);     % [rad]
+    createBusElement('elevator_cmd', 'single', 1);  % [rad]
+    createBusElement('aileron_cmd', 'single', 1);   % [rad]
+    createBusElement('rudder_cmd', 'single', 1);    % [rad]
+    createBusElement('mode', 'uint8', 1);           % Operating mode
+    createBusElement('limits_active', 'uint8', 1)   % Flags for active limits
+];
+
+ControlCommand_T = Simulink.Bus;
+ControlCommand_T.HeaderFile = '';
+ControlCommand_T.Description = 'Control Command Structure (SADD)';
+ControlCommand_T.Elements = controlCommandElems;
+
+%% SystemStatus_T Bus (status and health - from SADD)
+systemStatusElems = [
+    createBusElement('current_mode', 'uint8', 1);   % Enum for modes (Normal=1, Degraded=2, etc.)
+    createBusElement('fault_flags', 'uint32', 1);
+    createBusElement('warning_flags', 'uint32', 1);
+    createBusElement('cpu_usage', 'single', 1);     % [%] - <80% per RRD
+    createBusElement('control_error_rms', 'single', 1);  % RMS error
+    createBusElement('active_limits', 'uint8', [1 10]);  % Array of active safety limits (up to 10)
+    createBusElement('num_active_limits', 'uint8', 1)
+];
+
+SystemStatus_T = Simulink.Bus;
+SystemStatus_T.HeaderFile = '';
+SystemStatus_T.Description = 'System Status Structure (SADD)';
+SystemStatus_T.Elements = systemStatusElems;
+
+%% Assign to base workspace and save (for use in Simulink models)
+assignin('base', 'AircraftState_T', AircraftState_T);
+assignin('base', 'ControlCommand_T', ControlCommand_T);
+assignin('base', 'SystemStatus_T', SystemStatus_T);
+
+save('data/navigation_buses.mat', 'AircraftState_T', 'ControlCommand_T', 'SystemStatus_T');
+
+disp('Bus definitions created and saved to data/navigation_buses.mat');

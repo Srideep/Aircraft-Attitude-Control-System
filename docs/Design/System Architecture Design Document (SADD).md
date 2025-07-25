@@ -18,7 +18,7 @@
 
 ### 1.1 Purpose
 
-This System Architecture Design Document (SADD) captures the high‑level structure, component breakdown and key design decisions for the **Aircraft Attitude Control System (ACS) – Hobby Edition**.&#x20;
+This System Architecture Design Document (SADD) captures the high‑level structure, component breakdown and key design decisions for the **Aircraft Attitude Control System (ACS) ;
 
 It realises the requirements in *ACS‑SRS‑001‑H* and the rationale in *ACS‑RRD‑001‑H* using only **MATLAB®, Simulink® and Stateflow®** under a MATLAB Home licence.
 

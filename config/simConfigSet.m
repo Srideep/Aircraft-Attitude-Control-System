@@ -1,1 +1,69 @@
-cs = Simulink.ConfigSet;% Set solver parameters for fixed-step, real-time simulation (100 Hz = 0.01s step)set_param(cs, 'SolverType', 'Fixed-step');set_param(cs, 'Solver', 'ode4');  % Runge-Kutta for accuracy in custom 6-DOF dynamicsset_param(cs, 'FixedStep', '0.01');  % 100 Hz per SRSset_param(cs, 'StartTime', '0');set_param(cs, 'StopTime', '10');  % Default sim time; override in run_simulation.m% Hardware/execution settings (floating-point per SADD rationale)set_param(cs, 'HardwareBoard', 'None');  % Custom or none for simulationset_param(cs, 'ProdHWDeviceType', 'Generic->Custom');  % For code gen to PowerPC laterset_param(cs, 'TargetLang', 'C');  % ANSI C99 per SADDset_param(cs, 'TargetLangStandard', 'C99 (ISO)');% Code generation settings (for Embedded Coder integration)set_param(cs, 'GenCodeOnly', 'off');  % Generate and buildset_param(cs, 'PackageGeneratedCodeAndArtifacts', 'off');% Diagnostics and logging (for safety monitoring per SDD)set_param(cs, 'SaveState', 'on');set_param(cs, 'StateSaveName', 'xout');set_param(cs, 'SaveOutput', 'on');set_param(cs, 'OutputSaveName', 'yout');set_param(cs, 'SignalLogging', 'on');set_param(cs, 'SignalLoggingName', 'logsout');disp('Configuration set ''cs'' created in workspace. Attach to a model with: attachConfigSet(''your_model'', cs, true);');
+function generate_simConfigSet(outFile)
+%GENERATE_SIMCONFIGSET  Build & save the default ACS simulation config (.ssc)
+%
+%   generate_simConfigSet                       % saves to config/simConfigSet.ssc
+%   generate_simConfigSet('myConfig.ssc')       % custom path / filename
+%
+%   The script creates a Simulink.ConfigSet tuned for the Aircraft Attitude
+%   Control System: 100 Hz fixed‑step discrete solver, inline parameter
+%   tuning, workspace logging ON, and code‑gen turned OFF (desktop sim).
+%
+%   After running it once, just execute  setup_project  (or follow the quick
+%   steps under “HOW TO RUN” at the bottom) to attach the config to ACS.slx
+%   automatically.
+%
+%──────────────────────────────────────────────────────────────────────────
+
+if nargin<1
+    outFile = fullfile('config','simConfigSet.ssc');
+end
+if ~exist(fileparts(outFile),'dir'); mkdir(fileparts(outFile)); end
+
+%% 1. Create base config ---------------------------------------------------
+cs          = Simulink.ConfigSet;
+cs.Name     = 'ACS_Config';
+
+%% 2. Solver settings ------------------------------------------------------
+set_param(cs, ...
+    'SolverType',       'Fixed-step',            ...
+    'Solver',           'FixedStepDiscrete',     ...  % no continuous states
+    'FixedStep',        '0.01',                  ...  % 100 Hz loop
+    'StartTime',        '0',                     ...
+    'StopTime',         'inf',                   ...  % run until user stops
+    'EnableMultiTasking','off');
+
+%% 3. Data logging ---------------------------------------------------------
+set_param(cs, ...
+    'SignalLoggingName',      'logsout', ...
+    'SignalLogging',          'on',      ...
+    'SignalLoggingSaveFormat','Dataset', ...
+    'SaveTime',               'on',      ...
+    'SaveOutput',             'on',      ...
+    'LimitDataPoints',        'on',      ...
+    'MaxDataPoints',          '50000');
+
+%% 4. Diagnostics (key ones) ----------------------------------------------
+set_param(cs, ...
+    'ConsistencyChecking',  'none',   ...  % faster builds
+    'SolverConsistencyChecking','none');
+
+%% 5. Hardware & code‑gen (desktop sim only) ------------------------------
+set_param(cs, ...
+    'SystemTargetFile',      '', ...   % no code generation
+    'ProdHWDeviceType',      'MATLAB->PC-Intel x86-64 (Windows64)');
+
+%% 6. Save as .ssc ---------------------------------------------------------
+Simulink.saveConfigSet(outFile, cs);
+fprintf('[ACS] Config set saved → %s\n', outFile);
+end
+
+%──────────────────────────────────────────────────────────────────────────
+%% HOW TO RUN (QUICK GUIDE)
+%   >> cd path/to/acs-project
+%   >> generate_simConfigSet           % builds config/simConfigSet.ssc
+%   >> setup_project                   % adds paths, loads buses & config
+%   >> open_system('ACS')              % verify config attached (Model > Model Settings)
+%   >> sim('ACS','StopTime','10')      % run 10 s desktop simulation
+%
+%   The  setup_project  script automatically loads the .ssc you just
+%   generated and attaches it to ACS.slx, so no manual linking is needed.
